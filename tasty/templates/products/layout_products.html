@@ -3,9 +3,9 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Le Bocal </title>
+	<title>Le Lardon </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Le bocal website" />
+	<meta name="description" content="Le Lardon website" />
 	<meta name="keywords" content="bocal, bar, programmation" />
 	<meta name="author" content="valentin lefranc" />
 
@@ -53,7 +53,9 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
+	{{ toastr.include_jquery() }}
+  {{ toastr.include_toastr_css() }}
+  {{ toastr.message() }}
 	</head>
 	<body>
 
@@ -64,35 +66,15 @@
   			<div class="container">
   				<div class="row">
   					<div class="col-xs-12 text-center logo-wrap">
-  						<div id="fh5co-logo"><a href="{{ url_for('main.home') }}">Le Bocal<span>.</span></a></div>
+  						<div id="fh5co-logo"><a href="{{ url_for('main.home') }}">Gestion du Lardon <span>.</span></a></div>
   					</div>
   					<div class="col-xs-12 text-center menu-1 menu-wrap">
   						<ul>
-  							<li class="active"><a href="{{ url_for('main.home') }}">Acceuil</a></li>
+								<li class="has-dropdown"><a href="{{ url_for('products.allprod') }}">Les produits</a></li>
+  							<li><a href="#">Les users</a></li>
+  							<li class="has-dropdown"><a href="#">Les stats</a></li>
+								<li class="has-dropdown"><a href="{{ url_for('main.home') }}">Retour vers le site</a></li>
 
-								<li class="has-dropdown">
-  								<a href="{{ url_for('main.cafe') }}">Le café</a>
-  								<ul class="dropdown">
-  									<li><a href="#">Evenements</a></li>
-  									<li><a href="#">Nourriture</a></li>
-  									<li><a href="#">Activités</a></li>
-  								</ul>
-  							</li>
-
-  							<li><a href="{{ url_for('main.coworking') }}">Les Freelances </a></li>
-
-  							<li class="has-dropdown">
-  								<a href="{{ url_for('main.cours') }}">Les cours</a>
-  								<ul class="dropdown">
-  									<li><a href="#">Groupes</a></li>
-  									<li><a href="#">Enfant</a></li>
-  									<li><a href="#">Adultes</a></li>
-  								</ul>
-  							</li>
-
-  							<li><a href="{{ url_for('main.reservation') }}">Produits</a></li>
-  							<!-- <li><a href="{{ url_for('main.about') }}">A propos</a></li>-->
-  							<li><a href="{{ url_for('main.contact') }}">Contact</a></li>
   						</ul>
   					</div>
   				</div>
@@ -174,6 +156,7 @@
   		</div>
   	</footer>
   	</div>
+
 
   	<div class="gototop js-top">
   		<a href="#" class="js-gotop"><i class="icon-arrow-up22"></i></a>

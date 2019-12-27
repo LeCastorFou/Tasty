@@ -29,28 +29,28 @@ main = Blueprint('main',__name__)
 @main.route("/")
 @main.route("/home")
 def home():
-    return render_template('index.html')
+    return render_template('mainweb/index.html')
 
 @main.route("/coworking")
 def coworking():
-    return render_template('coworking.html')
+    return render_template('mainweb/coworking.html')
 
 @main.route("/about")
 def about():
-    return render_template('about.html')
+    return render_template('mainweb/about.html')
 
 @main.route("/reservation")
 def reservation():
-    return render_template('reservation.html')
+    return render_template('mainweb/reservation.html')
 
 @main.route("/cours")
 def cours():
-    return render_template('cours.html')
+    return render_template('mainweb/cours.html')
 
 @main.route("/cafe")
 def cafe():
-    return render_template('cafe.html')
+    return render_template('mainweb/cafe.html')
 
 @main.route("/contact")
 def contact():
-    return render_template('contact.html')
+    return render_template('mainweb/contact.html')

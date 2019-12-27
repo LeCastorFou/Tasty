@@ -7,7 +7,7 @@
 }
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *
 * ======================================================= */
 body {
@@ -33,6 +33,31 @@ body {
   -o-transition: 0.5s;
   transition: 0.5s;
 }
+
+.simple_all_marge_div
+{
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-bottom: 30px;
+  margin-right:  100px;
+}
+
+.simple_center_marge_div
+{
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-bottom: 30px;
+  margin-right:  100px;
+  text-align:  center;
+}
+
+.content-section {
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
 .offcanvas #page {
   overflow: hidden;
   position: absolute;

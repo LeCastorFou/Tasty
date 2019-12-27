@@ -1,0 +1,106 @@
+{% extends "products/layout_products.html" %}
+{%block content %}
+
+<div class ='simple_all_marge_div'>
+  <div class="fh5co-section">
+      <form method="POST" action="" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <!-- les class sont pour le bootstrap -->
+          <fieldset>
+              <legend style="color:white;" class = 'border-bottom mb-4'>{{ legend }}</legend>
+
+              <div class='form-group'>
+                {{ form.name.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.name.errors %}
+                    {{ form.name(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.name.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.name(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.description.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.description.errors %}
+                    {{ form.description(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.description.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.description(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.price_sell.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.price_sell.errors %}
+                    {{ form.price_sell(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.price_sell.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.price_sell(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.qte.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.qte.errors %}
+                    {{ form.qte(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.qte.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.qte(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.price_buy.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.price_buy.errors %}
+                    {{ form.price_buy(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.price_buy.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.price_buy(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+            <div class='form-group'>
+              {{ form.picture.label()}}
+              {{ form.picture(class = "form-control-file")}}
+              {% if form.picture.errors %}
+                {% for error in form.picture.errors %}
+                  <span class="text-danger">{{error}}</span>
+                {% endfor%}
+              {% endif%}
+            </div>
+
+          </fieldset>
+          <div class='form-group'>
+            {{ form.submit(class = "btn btn-primary btn-outline")}}
+          </div>
+      </form>
+  </div>
+</div>
+
+
+{% endblock content %}

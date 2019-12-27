@@ -1,4 +1,3 @@
-'''
 from tasty import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
@@ -52,4 +51,14 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-'''
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    image_file = db.Column(db.String(200), nullable=False)
+    ## nullable=False oblige le contenu
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.Text, nullable=False)
+    price_sell = db.Column(db.Float , nullable=False)
+    price_buy = db.Column(db.Float , nullable=False)
+    qte = db.Column(db.Integer)
