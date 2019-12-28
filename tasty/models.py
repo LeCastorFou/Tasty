@@ -13,9 +13,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    posts = db.relationship('Post', backref='author', lazy=True)
 
     # renvoi un clef secret pendant un temps avant expiration
     def get_reset_token(self, expires_sec=1800):
@@ -40,6 +38,14 @@ class User(db.Model, UserMixin):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
 
+class Client(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(20), unique=True, nullable=False)
+    prenom = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    tel = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(200), nullable=False)
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
@@ -62,3 +68,22 @@ class Product(db.Model):
     price_sell = db.Column(db.Float , nullable=False)
     price_buy = db.Column(db.Float , nullable=False)
     qte = db.Column(db.Integer)
+
+
+class Boisson(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    image_file = db.Column(db.String(200), nullable=False,default='boisson.png')
+    ## nullable=False oblige le contenu
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.Text, nullable=False)
+    price_sell = db.Column(db.Float , nullable=False)
+
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    image_file = db.Column(db.String(200), nullable=False,default='table.png')
+    ## nullable=False oblige le contenu
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    description = db.Column(db.Text, nullable=False)
+    price_sell = db.Column(db.Float , nullable=False)

@@ -39,5 +39,8 @@ def create_app(config_class = Config):
     from tasty.Products.routes import products
     app.register_blueprint(products)
 
+    from tasty.Carte.routes import carte
+    app.register_blueprint(carte)
+
 
     return app
