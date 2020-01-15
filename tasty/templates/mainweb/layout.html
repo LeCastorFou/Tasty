@@ -68,18 +68,20 @@
   					</div>
   					<div class="col-xs-12 text-center menu-1 menu-wrap">
   						<ul>
-  							<li class="active"><a href="{{ url_for('main.home') }}">accueil</a></li>
+  							<li><a href="{{ url_for('main.home') }}">accueil</a></li>
 
 								<li class="has-dropdown">
   								<a href="{{ url_for('main.cafe') }}">Le café</a>
   								<ul class="dropdown">
+										<li><a href="#">A propos</a></li>
+										<li><a href="#">Carte</a></li>
   									<li><a href="#">Evenements</a></li>
-  									<li><a href="#">Nourriture</a></li>
-  									<li><a href="#">Activités</a></li>
+										<li><a href="#">Co-Worker</a></li>
+  									<li><a href="#">Photos</a></li>
   								</ul>
   							</li>
 
-  							<li><a href="{{ url_for('main.coworking') }}">Les Freelances </a></li>
+  						<!--	<li><a href="{{ url_for('main.coworking') }}">Les Freelances </a></li> -->
 
   							<li class="has-dropdown">
   								<a href="{{ url_for('main.cours') }}">Les cours</a>
@@ -90,7 +92,7 @@
   								</ul>
   							</li>
 
-  							<li><a href="{{ url_for('main.reservation') }}">Produits</a></li>
+  							<li><a href="{{ url_for('main.reservation') }}">Epicerie</a></li>
   							<!-- <li><a href="{{ url_for('main.about') }}">A propos</a></li>-->
   							<li><a href="{{ url_for('main.contact') }}">Contact</a></li>
   						</ul>

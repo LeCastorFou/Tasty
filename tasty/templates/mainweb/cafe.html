@@ -36,6 +36,58 @@
 			</div>
 		</div>
 
+<div id="fh5co-featured-menu" class="fh5co-section">
+<div class="container">
+	<div class="row">
+		<div class="section-heading">
+			<h2>La carte</h2>
+		</div>
+
+		<div class="section-heading">
+			<h2>Les boissons</h2>
+		</div>
+
+		<div id="fh5co-featured-menu" style ="padding-top:0px" class="fh5co-section">
+			<div class="container">
+				<div class="row">
+				{% for prod in boissons%}
+							<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+								<div class="fh5co-item">
+									<img src="static/images/carte/{{prod.image_file}}" class="img-responsive">
+									<h3>{{prod.name}}</h3>
+									<span class="fh5co-price">{{prod.price_sell}} € </span>
+									<p>{{prod.description}}  </p>
+								</div>
+							</div>
+			    {%endfor%}
+					</div>
+				</div>
+			</div>
+
+		<div class="section-heading">
+			<h2>Pour grignoter</h2>
+		</div>
+			<div id="fh5co-featured-menu" style ="padding-top:0px" class="fh5co-section">
+				<div class="container">
+					<div class="row">
+					{% for prod in foods%}
+								<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+									<div class="fh5co-item">
+										<img src="static/images/carte/{{prod.image_file}}" class="img-responsive">
+										<h3>{{prod.name}}</h3>
+										<span class="fh5co-price">{{prod.price_sell}} € </span>
+										<p>{{prod.description}} </p>
+									</div>
+								</div>
+						{%endfor%}
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
 
 
 		<div id="fh5co-featured-testimony" class="fh5co-section">

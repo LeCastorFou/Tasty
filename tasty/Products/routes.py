@@ -38,7 +38,7 @@ def addprod():
     form = AddProductForm()
     if form.validate_on_submit():
         print(form.picture.data)
-        produit = Product(image_file = save_picture(form.picture.data),name=form.name.data, description=form.description.data, price_sell = form.price_sell.data, price_buy = form.price_buy.data, qte =form.qte.data)
+        produit = Product(image_file = save_picture(form.picture.data),TVA = form.TVA.data,name=form.name.data, description=form.description.data, price_sell = form.price_sell.data, price_buy = form.price_buy.data, qte =form.qte.data)
         print(produit)
         db.session.add(produit)
         db.session.commit()

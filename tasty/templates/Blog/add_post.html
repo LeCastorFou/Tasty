@@ -1,0 +1,79 @@
+{% extends "layouts/layout_products.html" %}
+{%block content %}
+
+<div class ='simple_all_marge_div'>
+  <div class="fh5co-section">
+      <form method="POST" action="" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <!-- les class sont pour le bootstrap -->
+          <fieldset>
+              <legend style="color:white;" class = 'border-bottom mb-4'>{{ legend }}</legend>
+
+              <div class='form-group'>
+                {{ form.title.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.title.errors %}
+                    {{ form.title(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.title.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.title(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.content.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.content.errors %}
+                    {{ form.content(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.content.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.content(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
+                {{ form.details.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.details.errors %}
+                    {{ form.details(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.details.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.details(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+
+
+
+            <div class='form-group'>
+              {{ form.picture.label()}}
+              {{ form.picture(class = "form-control-file")}}
+              {% if form.picture.errors %}
+                {% for error in form.picture.errors %}
+                  <span class="text-danger">{{error}}</span>
+                {% endfor%}
+              {% endif%}
+            </div>
+
+          </fieldset>
+          <div class='form-group'>
+            {{ form.submit(class = "btn btn-primary btn-outline")}}
+          </div>
+      </form>
+  </div>
+</div>
+
+
+{% endblock content %}

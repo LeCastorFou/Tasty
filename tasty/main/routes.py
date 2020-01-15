@@ -1,11 +1,12 @@
 from flask import Blueprint
 from flask import render_template, url_for,flash, redirect, request, abort, send_from_directory, make_response
 from tasty import bcrypt, mail
-#from tasty.models import User, Post
+from tasty.models import User, Post,Product, Boisson, Food
 from werkzeug import secure_filename
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 import pandas as pd
+from tasty.models import User, Post,Product
 import secrets
 import os
 from datetime import timedelta
@@ -41,7 +42,8 @@ def about():
 
 @main.route("/reservation")
 def reservation():
-    return render_template('mainweb/reservation.html')
+    produits = Product.query.all()
+    return render_template('mainweb/reservation.html',produits=produits)
 
 @main.route("/cours")
 def cours():
@@ -49,7 +51,9 @@ def cours():
 
 @main.route("/cafe")
 def cafe():
-    return render_template('mainweb/cafe.html')
+    boissons = Boisson.query.all()
+    foods = Food.query.all()
+    return render_template('mainweb/cafe.html',boissons=boissons,foods=foods)
 
 @main.route("/contact")
 def contact():

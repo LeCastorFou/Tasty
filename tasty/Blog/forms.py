@@ -12,13 +12,10 @@ import datetime
 # taille, no empty, email pour que l'input de l'utilisateur soit ok
 images = UploadSet('images', IMAGES)
 
-class AddProductForm(FlaskForm):
-    name = StringField('Nom', validators=[DataRequired()])
-    description = TextAreaField('Contenu', validators=[DataRequired()])
-    price_sell = FloatField('Prix de Vente', validators=[DataRequired()])
-    price_buy = FloatField("Prix de d'Achat", validators=[DataRequired()])
-    TVA = FloatField("TVA", validators=[DataRequired()])
-    qte = IntegerField("Quantité rentré en stock", validators=[DataRequired()])
-    picture = FileField('Image :', validators=[FileRequired()])
+class AddPost(FlaskForm):
+    title = StringField('Nom', validators=[DataRequired()])
+    content = TextAreaField('Contenu', validators=[DataRequired()])
+    details = TextAreaField('Date/Details', validators=[DataRequired()])
+    picture = FileField('Image :', validators=[])
     #picture = FileField('Image :', validators=[])
     submit = SubmitField('Ajouter')
