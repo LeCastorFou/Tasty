@@ -1,0 +1,31 @@
+{% extends "layouts/layout_Caisse.html" %}
+{%block content %}
+
+
+<script>
+     $(document).ready(function(){
+          $('.btn_open_tic').click(function(){
+              var fct = '/Open_ticket'
+              $.ajax({  type: 'POST',  url: fct,success: function(data) {console.log(data.matching_results); },});
+             toastr.success('Nouveau ticket créé')
+          });
+     });
+</script>
+
+<div id="fh5co-about" class="fh5co-section">
+	<div class = "simple_center_marge_div"></div>
+</div>
+
+<div class="row whiteround" style="margin-right: 0px;margin-left: 0px;">
+
+	<div class="col-md-8 ">
+    <a  href="{{url_for('caisse.Caisse_Carte')}}" class="btn_open_tic" ><button class="btn btn-primary btn-lg " style =" margin-bottom : 10px"><i class="fa fa-plus"></i> Nouveau ticket</button></a>
+	</div>
+
+	<div class="col-md-4" >
+
+
+  </div>
+
+
+{% endblock content %}

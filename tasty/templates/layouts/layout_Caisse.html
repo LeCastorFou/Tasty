@@ -3,7 +3,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Le Lardon </title>
+	<title>Caisse du Lardon </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Le Lardon website" />
 	<meta name="keywords" content="bocal, bar, programmation" />
@@ -36,6 +36,9 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,300i,400,400i,500,600i,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+	<!-- fontawesome CSS -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 
 	<!-- Animate.css -->
   <link rel="stylesheet"  type="text/css"	href="{{ url_for('static', filename='css/animate.css') }}">
@@ -66,16 +69,15 @@
   			<div class="container">
   				<div class="row">
   					<div class="col-xs-12 text-center logo-wrap">
-  						<div id="fh5co-logo"><a href="{{ url_for('main.home') }}">Gestion du Lardon <span>.</span></a></div>
+  						<div id="fh5co-logo"><a href="{{ url_for('main.home') }}">Caisse du Lardon <span>.</span></a></div>
   					</div>
   					<div class="col-xs-12 text-center menu-1 menu-wrap">
   						<ul>
-								<li class="has-dropdown"><a href="{{ url_for('products.allprod') }}">Les produits</a></li>
-								<li class="has-dropdown"><a href="{{ url_for('carte.allcarte') }}">La Carte</a></li>
+								<li class="has-dropdown"><a href="{{ url_for('carte.allcarte') }}">Carte</a></li>
+								<li class="has-dropdown"><a href="{{ url_for('products.allprod') }}">Produits</a></li>
   							<li><a href="#">Les users</a></li>
-  							<li class="has-dropdown"><a href="{{ url_for('blog.allblog') }}">Posts</a></li>
-								<li class="has-dropdown"><a href="{{ url_for('caisse.Caisse_Carte') }}">Caisse</a></li>
-								<li class="has-dropdown"><a href="{{ url_for('main.home') }}">Retour vers le site</a></li>
+  							<li class="has-dropdown"><a href="{{ url_for('blog.allblog') }}">Autres</a></li>
+								<li class="has-dropdown"><a href="{{ url_for('main.home') }}">Retour Gestion</a></li>
 
   						</ul>
   					</div>
@@ -85,58 +87,25 @@
   		<!-- </div> -->
   	</nav>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-                  {% if messages %}
-                  {% for category, message in messages %}
-                  <!--  <div class="alert alert-{{ category }}">
-                      {{ message }}
-                    </div>
-                  -->
 
-                  {% endfor %}
-                  {% endif %}
-                {% endwith %}
-    {% block content %}{% endblock %}
+
+
+	  {% with messages = get_flashed_messages(with_categories=true) %}
+	                  {% if messages %}
+	                  {% for category, message in messages %}
+	                  <!--  <div class="alert alert-{{ category }}">
+	                      {{ message }}
+	                    </div>
+	                  -->
+
+	                  {% endfor %}
+	                  {% endif %}
+	                {% endwith %}
+	    {% block content %}{% endblock %}
+
 
   	<footer id="fh5co-footer" role="contentinfo" class="fh5co-section">
   		<div class="container">
-  			<div class="row row-pb-md">
-  				<div class="col-md-4 fh5co-widget">
-  					<h4>Tasty</h4>
-  					<p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
-  				</div>
-  				<div class="col-md-2 col-md-push-1 fh5co-widget">
-  					<h4>Links</h4>
-  					<ul class="fh5co-footer-links">
-  						<li><a href="#">Home</a></li>
-  						<li><a href="#">About</a></li>
-  						<li><a href="#">Menu</a></li>
-  						<li><a href="#">Gallery</a></li>
-  					</ul>
-  				</div>
-
-  				<div class="col-md-2 col-md-push-1 fh5co-widget">
-  					<h4>Categories</h4>
-  					<ul class="fh5co-footer-links">
-  						<li><a href="#">Landing Page</a></li>
-  						<li><a href="#">Real Estate</a></li>
-  						<li><a href="#">Personal</a></li>
-  						<li><a href="#">Business</a></li>
-  						<li><a href="#">e-Commerce</a></li>
-  					</ul>
-  				</div>
-
-  				<div class="col-md-4 col-md-push-1 fh5co-widget">
-  					<h4>Contact Information</h4>
-  					<ul class="fh5co-footer-links">
-  						<li>198 West 21th Street, <br> Suite 721 New York NY 10016</li>
-  						<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-  						<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-  						<li><a href="http://https://freehtml5.co">freehtml5.co</a></li>
-  					</ul>
-  				</div>
-
-  			</div>
 
   			<div class="row copyright">
   				<div class="col-md-12 text-center">

@@ -1,0 +1,154 @@
+{% extends "layouts/layout_Caisse.html" %}
+{%block content %}
+
+
+<script>
+// ajouter un élement du ticket
+     $(document).ready(function(){
+          $('.btn_caisse').click(function(){
+              console.log($(this).attr("name"))
+              var prod = $(this).attr("name");
+              var Tic_ID = $('#Tic_ID').data().name;
+              var fct = '/Add_to_ticket/'+prod+'/'+Tic_ID
+              console.log(fct)
+                // reload div of the ticket only
+
+              $.ajax({  type: 'POST',  url: fct,
+              success: function(data) {
+																			console.log(data.matching_results);
+                                      $("#"+prod).text(prod + " : " + data.matching_results[0].toString() );
+                                     },
+             });
+               console.log(window.location.href)
+              $( "#ticket" ).load(" #ticket > *" );
+             toastr.success(prod+' ajouté au ticket')
+
+          });
+     });
+</script>
+
+<script>
+// effacer un element du ticket
+     $(document).ready(function(){
+          $('.btn_delete').click(function(){
+              console.log($(this).attr("name"))
+              var prod = $(this).attr("name");
+              var Tic_ID = $('#Tic_ID').data().name;
+              var fct = '/remove_to_ticket/'+prod+'/'+Tic_ID
+              console.log(fct)
+              // reload div of the ticket only
+              $.ajax({  type: 'POST',  url: fct,
+              success: function(data) {
+																			console.log(data.matching_results);
+                                      $("#"+prod).text(prod + " : " + data.matching_results[0].toString() );
+                                     },
+             });
+              $( "#ticket" ).load(" #ticket > *" );
+             toastr.warning(prod+' enlevé au ticket')
+          });
+     });
+</script>
+
+<script>
+// closing ticket
+     $(document).ready(function(){
+          $('.btn_close_tic').click(function(){
+              console.log($(this).attr("name"))
+              var Tic_ID = $(this).attr("name");
+
+              var fct = '/close_ticket/'+Tic_ID
+              console.log(fct)
+                // reload div of the ticket only
+
+              $.ajax({  type: 'POST',  url: fct,
+              success: function(data) {
+																			console.log(data.matching_results);
+                                     },
+             });
+          });
+     });
+</script>
+
+
+<div id="fh5co-about" class="fh5co-section">
+	<div class = "simple_center_marge_div"></div>
+</div>
+
+
+  <meta id="Tic_ID" data-name="{{Ticket_ID_En_Cours}}">
+
+	<div class="col-md-8 ">
+		<div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
+		 <div class="container">
+    		{% for prod in boissons%}
+    					<div class="animate-box">
+    							<p><a href="#" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary btn-outline btn_delete">X</button></p>
+    					</div>
+    	    {%endfor%}
+    	</div>
+    </div>
+
+		<div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
+			<div class="container">
+				{% for prod in foods%}
+							<div class="animate-box">
+										<p><a href="#" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn_delete">X</button></p>
+							</div>
+					{%endfor%}
+				</div>
+			</div>
+
+      <div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
+  			<div class="container">
+  				{% for prod in produits%}
+  							<div class="animate-box">
+  										<p><a href="#" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn_delete">X</button></p>
+  							</div>
+  					{%endfor%}
+  				</div>
+  			</div>
+    <button  class="btn btn-primary btn-lg" style =" margin-bottom : 10px" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-share-square"></i>Fermer le ticket</button>
+		</div>
+
+
+
+	<div  class="col-md-4" >
+		<div  class="content-section ticket" style="background-color:white; color: black;">
+  			<h2> Ticket en cours </h2>
+          <div id="ticket">
+      			{% for key in All_Tickets%}
+            {% if  All_Tickets[key]['Qte'] != 0 %}
+              <div class="row">
+                <span style="margin-bottom: 0px;" id="{{ All_Tickets[key]['produit']}}">{{ All_Tickets[key]['produit']}} : {{ All_Tickets[key]['Qte']}}</span>
+              </div>
+            {%endif%}
+            {%endfor%}
+    		  </div>
+  </div>
+
+<!-- Modal When closing ticket -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Fermeture du tickets</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="far fa-credit-card"></i> Carte</button>
+        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-bill-alt"></i> Espece</button>
+        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-check-alt"></i></i> Chèque</button>
+        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-ticket-alt"></i> Ticket restaurant</button>
+      </div>
+      <div class="modal-footer">
+        <button style="color:black" type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <a href="{{url_for('caisse.Caisse_Carte')}}"  ><button type="button" class="btn btn-primary btn_close_tic" name="{{Ticket_ID_En_Cours}}" >Valider ce ticket </button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

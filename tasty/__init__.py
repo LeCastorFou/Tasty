@@ -45,5 +45,8 @@ def create_app(config_class = Config):
     from tasty.Blog.routes import blog
     app.register_blueprint(blog)
 
+    from tasty.Caisse.routes import caisse
+    app.register_blueprint(caisse)
+
 
     return app
