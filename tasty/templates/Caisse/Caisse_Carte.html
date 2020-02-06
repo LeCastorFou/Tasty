@@ -8,9 +8,11 @@
           $('.btn_caisse').click(function(){
               console.log($(this).attr("name"))
               var prod = $(this).attr("name");
+              var tva = $(this).attr("data-TVA");
+              var price = $(this).attr("data-price");
               var Tic_ID = $('#Tic_ID').data().name;
-              var fct = '/Add_to_ticket/'+prod+'/'+Tic_ID
-              console.log(fct)
+              var fct = '/Add_to_ticket/'+prod+'/'+Tic_ID+'/'+tva+'/'+price
+              console.log($(this).attr("data-TVA"))
                 // reload div of the ticket only
 
               $.ajax({  type: 'POST',  url: fct,
@@ -65,6 +67,30 @@
 																			console.log(data.matching_results);
                                      },
              });
+             toastr.warning('Ticket fermé')
+          });
+     });
+</script>
+
+<script>
+// closing ticket
+     $(document).ready(function(){
+          $('.btn_mod').click(function(){
+              console.log($(this).attr("name"))
+
+              var Tic_ID = $(this).attr("name");
+              var mod = $(this).attr("id");
+
+              var fct = '/close_ticket_mod/'+Tic_ID+'/'+mod
+              console.log(fct)
+                // reload div of the ticket only
+
+              $.ajax({  type: 'POST',  url: fct,
+              success: function(data) {
+																			console.log(data.matching_results);
+                                     },
+             });
+             toastr.info(mod+' Comme mode de paiement')
           });
      });
 </script>
@@ -79,31 +105,37 @@
 
 	<div class="col-md-8 ">
 		<div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
-		 <div class="container">
+		 <div class="container_flex">
     		{% for prod in boissons%}
     					<div class="animate-box">
-    							<p><a href="#" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary btn-outline btn_delete">X</button></p>
-    					</div>
+                 <div class="container_flex_col">
+    							   <a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}} {{prod.TVA}}</a> <button name="{{prod.name}}" type="button" class="btn-primary btn-sm btn-outline  btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+    					    </div>
+              </div>
     	    {%endfor%}
     	</div>
     </div>
 
 		<div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
-			<div class="container">
+			<div class="container_flex">
 				{% for prod in foods%}
 							<div class="animate-box">
-										<p><a href="#" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn_delete">X</button></p>
-							</div>
+                <div class="container_flex_col">
+										<a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn-sm btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+							  </div>
+              </div>
 					{%endfor%}
 				</div>
 			</div>
 
       <div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
-  			<div class="container">
+  			<div class="container_flex">
   				{% for prod in produits%}
   							<div class="animate-box">
-  										<p><a href="#" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn_delete">X</button></p>
-  							</div>
+                  <div class="container_flex_col">
+  										<a href="#" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+  							  </div>
+                </div>
   					{%endfor%}
   				</div>
   			</div>
@@ -131,16 +163,16 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Fermeture du tickets</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Fermeture du tickets / Mode de Paiement </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="far fa-credit-card"></i> Carte</button>
-        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-bill-alt"></i> Espece</button>
-        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-check-alt"></i></i> Chèque</button>
-        <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-ticket-alt"></i> Ticket restaurant</button>
+        <a href="#" class="btn_mod" name="{{Ticket_ID_En_Cours}}" id="Carte" >  <button  class="btn btn-info btn-lg "  style =" margin-bottom : 10px"><i class="far fa-credit-card"></i> Carte</button></a>
+        <a href="#" class="btn_mod" name="{{Ticket_ID_En_Cours}}" id="Espece" ><button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-bill-alt"></i> Espece</button></a>
+        <a href="#" class="btn_mod" name="{{Ticket_ID_En_Cours}}" id="Cheque" ><button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-money-check-alt"></i></i> Chèque</button></a>
+        <a href="#" class="btn_mod" name="{{Ticket_ID_En_Cours}}" id="TR" >  <button  class="btn btn-info btn-lg" style =" margin-bottom : 10px"><i class="fas fa-ticket-alt"></i> Ticket restaurant</button></a>
       </div>
       <div class="modal-footer">
         <button style="color:black" type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>

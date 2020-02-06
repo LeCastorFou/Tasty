@@ -49,18 +49,32 @@ def Close_Tic(db_mongo,ID):
     mycollection = db_mongo[ "Ticket_ID" ]
     mycollection.find_one_and_update(filter={'ID':ID}, update={"$set": {'Closed': True }})
 
+def Close_Tic_mod(db_mongo,ID,mod):
+    mycollection = db_mongo[ "Ticket_ID" ]
+    mycollection.find_one_and_update(filter={'ID':ID}, update={"$set": {'Paiment': mod }})
 
-def Add_Tic(db_mongo,prod,Tic_ID):
+
+def Add_Tic(db_mongo,prod,Tic_ID,tva,price):
     mycollection = db_mongo[ "Ticket" ]
     df =  pd.DataFrame(list(mycollection.find()))
     ID = prod+Tic_ID
+    # On regarde si la collection n'est pas vide
     if len(df)>0:
-        if prod in list(df['produit']):
-            mycollection.find_one_and_update(filter={'prod_ID':ID}, update={"$set": {'Qte': mycollection.find_one({'prod_ID':ID})['Qte'] + 1 }})
+        df =  df[df['Tic_ID']==Tic_ID]
+        # On regarde si il reste des elements apres le filtre sur Tic_ID
+        if len(df)>0:
+            if prod in list(df['produit']):
+                # Si le produit a deja ete rentre on lui met +1
+                mycollection.find_one_and_update(filter={'prod_ID':ID}, update={"$set": {'Qte': mycollection.find_one({'prod_ID':ID})['Qte'] + 1 }})
+            else:
+                #Sinon on le cree
+                mycollection.insert_one({"produit" : prod,'TVA' : tva , 'Prix': price, "Tic_ID":Tic_ID, 'Qte':1, 'prod_ID':prod+Tic_ID})
         else:
-            mycollection.insert_one({"produit" : prod,"Tic_ID":Tic_ID, 'Qte':1, 'prod_ID':prod+Tic_ID})
+            #Sinon on le cree
+            mycollection.insert_one({"produit" : prod,'TVA' : tva , 'Prix': price,"Tic_ID":Tic_ID, 'Qte':1, 'prod_ID':prod+Tic_ID})
     else:
-        mycollection.insert_one({"produit" : prod,"Tic_ID":Tic_ID, 'Qte':1, 'prod_ID':prod+Tic_ID})
+        #Sinon on le cree
+        mycollection.insert_one({"produit" : prod,'TVA' : tva , 'Prix': price,"Tic_ID":Tic_ID, 'Qte':1, 'prod_ID':prod+Tic_ID})
 
 def Remove_onefrom_Tic(db_mongo,prod,Tic_ID):
     mycollection = db_mongo[ "Ticket" ]
