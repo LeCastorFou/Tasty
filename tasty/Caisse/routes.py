@@ -47,6 +47,15 @@ def Caisse_Carte():
 @caisse.route("/Caisse_Carte_init")
 #@login_required
 def Caisse_Carte_init():
+    '''
+    All_Daily_sum = load_DB_collection(db_mongo,'Daily_summary')
+    Dates = np.sort(np.unique(All_Daily_sum['Date']))[::-1]
+    Dates = Dates[0:3]
+    list_df = []
+    for e in Dates:
+        list_df = list_df+[All_Daily_sum[All_Daily_sum['Date']==e].reset_index()]
+    pd.concat(list_df, axis=1)
+    '''
     return render_template('Caisse/Caisse_Carte_init.html')
 
 # Open ticket when none is open
@@ -70,21 +79,31 @@ def close_ticket(Tic_ID):
 @caisse.route('/close_caisse',methods = ['Get'])
 #@login_required
 def close_caisse():
-    Ticket_ID = load_DB_collection(db_mongo,'Ticket_ID')
-    Ticket_ID = Ticket_ID.rename(columns={'ID': 'Tic_ID'})
-    All_Tickets = load_DB_collection(db_mongo,'Ticket')
-    Daily_summary = pd.merge(Ticket_ID,All_Tickets, on="Tic_ID")
-    Daily_summary['Prix'] = [float(e) for e in list(Daily_summary['Prix'])]
-    TVA_ventil = pd.DataFrame(Daily_summary.groupby(['TVA'])['Prix'].sum())
-    Paiement_ventil = pd.DataFrame(Daily_summary.groupby(['Paiment'])['Prix'].sum())
-    Produit_ventil = pd.DataFrame(Daily_summary.groupby(['produit'])['Prix'].sum())
-    Summary = pd.concat([Produit_ventil, TVA_ventil,Paiement_ventil], ignore_index=False)
-    Summary['Summary'] = Summary.index
-    Summary = Summary.append({'Prix': len(Daily_summary),'Summary':'Nombre de vente'}, ignore_index=True)
-    Summary = Summary.append({'Prix': len(np.unique(Daily_summary['Tic_ID'])),'Summary':'Nombre de Ticket'}, ignore_index=True)
-    panier_moyen =np.mean(pd.DataFrame(Daily_summary.groupby(['Tic_ID'])['Prix'].sum())['Prix'])
-    Summary = Summary.append({'Prix': panier_moyen,'Summary':'panier moyen'}, ignore_index=True)
-    return None
+    today = datetime.datetime.today().replace(hour=0,minute=0,second=0,microsecond=0)
+    All_Daily_sum = load_DB_collection(db_mongo,'Daily_summary')
+    if today in list(All_Daily_sum['Date']):
+        flash('La caisse a déjà été fermé', 'error')
+        return redirect(url_for('caisse.Caisse_Carte_init'))
+    else:
+        Ticket_ID = load_DB_collection(db_mongo,'Ticket_ID')
+        Ticket_ID = Ticket_ID.rename(columns={'ID': 'Tic_ID'})
+        All_Tickets = load_DB_collection(db_mongo,'Ticket')
+        Daily_summary = pd.merge(Ticket_ID,All_Tickets, on="Tic_ID")
+        Daily_summary['Prix'] = [float(e) for e in list(Daily_summary['Prix'])]
+        TVA_ventil = pd.DataFrame(Daily_summary.groupby(['TVA'])['Prix'].sum())
+        Paiement_ventil = pd.DataFrame(Daily_summary.groupby(['Paiment'])['Prix'].sum())
+        Produit_ventil = pd.DataFrame(Daily_summary.groupby(['produit'])['Prix'].sum())
+        Summary = pd.concat([Produit_ventil, TVA_ventil,Paiement_ventil], ignore_index=False)
+        Summary['Summary'] = Summary.index
+        Summary = Summary.append({'Prix': len(Daily_summary),'Summary':'Nombre de vente'}, ignore_index=True)
+        Summary = Summary.append({'Prix': len(np.unique(Daily_summary['Tic_ID'])),'Summary':'Nombre de Ticket'}, ignore_index=True)
+        panier_moyen =np.mean(pd.DataFrame(Daily_summary.groupby(['Tic_ID'])['Prix'].sum())['Prix'])
+        Summary = Summary.append({'Prix': panier_moyen,'Summary':'panier moyen'}, ignore_index=True)
+        Summary['Date'] = today
+        # Saving
+        Summary = Summary.to_dict('records')
+        db_mongo["Daily_summary"].insert_many(Summary)
+        return redirect(url_for('caisse.Caisse_Carte_init'))
 
 
 # Closing ticket mode de Paiement
