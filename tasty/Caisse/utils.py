@@ -102,3 +102,10 @@ def Remove_onefrom_Tic(db_mongo,prod,Tic_ID):
     mycollection = db_mongo[ "Ticket" ]
     ID = prod+Tic_ID
     mycollection.find_one_and_update(filter={'prod_ID':ID}, update={"$set": {'Qte': mycollection.find_one({'prod_ID':ID})['Qte'] - 1 }})
+
+
+def Remove_prodfrom_Tic(db_mongo,prod,Tic_ID):
+    mycollection = db_mongo[ "Ticket" ]
+    ID = prod+Tic_ID
+    mycollection.find_one_and_update(filter={'prod_ID':ID}, update={"$set": {'Qte': mycollection.find_one({'prod_ID':ID})['Qte'] - 1 }})
+    mycollection.remove({"prod_ID" : ID})

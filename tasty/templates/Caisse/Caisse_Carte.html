@@ -28,6 +28,7 @@
               success: function(data) {
 																			console.log(data.matching_results);
                                       $("#"+prod).text(prod + " : x" + data.matching_results[0].toString()+" = "+ parseFloat(data.matching_results[0])*parseFloat(price).toString() );
+                                      $("#total").text("Total : " + data.matching_results[1].toString()+" €" );
                                      },
              });
                console.log(window.location.href)
@@ -45,13 +46,38 @@
               console.log($(this).attr("name"))
               var prod = $(this).attr("name");
               var Tic_ID = $('#Tic_ID').data().name;
+              var price = $(this).attr("data-price");
               var fct = '/remove_to_ticket/'+prod+'/'+Tic_ID
               console.log(fct)
               // reload div of the ticket only
               $.ajax({  type: 'POST',  url: fct,
               success: function(data) {
 																			console.log(data.matching_results);
+                                      $("#"+prod).text(prod + " : x" + data.matching_results[0].toString()+" = "+ parseFloat(data.matching_results[0])*parseFloat(price).toString() );
+                                      $("#total").text("Total : " + data.matching_results[1].toString()+" €" );
+                                     },
+             });
+              $( "#ticket" ).load(" #ticket > *" );
+             toastr.warning(prod+' enlevé au ticket')
+          });
+     });
+</script>
+
+<script>
+// effacer un produit du ticket
+     $(document).ready(function(){
+          $('.btn_delete_prod').click(function(){
+              console.log($(this).attr("name"))
+              var prod = $(this).attr("name");
+              var Tic_ID = $('#Tic_ID').data().name;
+              var fct = '/remove_prod_to_ticket/'+prod+'/'+Tic_ID
+              console.log(fct)
+              // reload div of the ticket only
+              $.ajax({  type: 'POST',  url: fct,
+              success: function(data) {
+																			console.log(data.matching_results);
                                       $("#"+prod).text(prod + " : " + data.matching_results[0].toString() );
+                                      $("#total").text("Total : " + data.matching_results[1].toString()+" €" );
                                      },
              });
               $( "#ticket" ).load(" #ticket > *" );
@@ -118,7 +144,7 @@
     		{% for prod in boissons%}
     					<div class="animate-box">
                  <div class="container_flex_col">
-    							   <a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}} {{prod.TVA}}</a> <button name="{{prod.name}}" type="button" class="btn-primary btn-sm btn-outline  btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+    							   <a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}} {{prod.TVA}}</a> <button name="{{prod.name}}" type="button" class="btn-primary btn-sm btn-outline  btn_delete" data-price="{{prod.price_sell}}" style="margin-right: 20px; margin-left: 20px;">X</button>
     					    </div>
               </div>
     	    {%endfor%}
@@ -130,7 +156,7 @@
 				{% for prod in foods%}
 							<div class="animate-box">
                 <div class="container_flex_col">
-										<a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn-sm btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+										<a href="#" data-TVA="10" data-price="{{prod.price_sell}}" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn-sm btn_delete" data-price="{{prod.price_sell}}" style="margin-right: 20px; margin-left: 20px;">X</button>
 							  </div>
               </div>
 					{%endfor%}
@@ -142,7 +168,7 @@
   				{% for prod in produits%}
   							<div class="animate-box">
                   <div class="container_flex_col">
-  										<a href="#" data-type="produits" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}} </a>  <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete" style="margin-top: 5px;  margin-right: 20px; margin-left: 20px;">X</button>
+  										<a href="#" data-type="produits" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}} </a>  <button name="{{prod.name}}" data-type="produits" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete_prod" data-price="{{prod.price_sell}}" style="margin-top: 5px;  margin-right: 20px; margin-left: 20px;">X</button>
   							  </div>
                 </div>
   					{%endfor%}
@@ -160,10 +186,11 @@
       			{% for key in All_Tickets%}
             {% if  All_Tickets[key]['Qte'] != 0 %}
               <div class="row">
-                <span style="margin-bottom: 0px;" id="{{ All_Tickets[key]['produit']}}">{{ All_Tickets[key]['produit']}} : x{{ All_Tickets[key]['Qte']}}  = {{ All_Tickets[key]['Qte']*All_Tickets[key]['Prix']}} </span> 
+                <span style="margin-bottom: 0px;" id="{{ All_Tickets[key]['produit']}}">{{ All_Tickets[key]['produit']}} : x{{ All_Tickets[key]['Qte']}}  = {{ All_Tickets[key]['Qte']*All_Tickets[key]['Prix']}} </span>
               </div>
             {%endif%}
             {%endfor%}
+            <span style="margin-bottom: 0px;" id="total">Total : 0 € </span>
     		  </div>
   </div>
 
