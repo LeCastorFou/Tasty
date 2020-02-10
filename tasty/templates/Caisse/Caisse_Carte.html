@@ -11,14 +11,23 @@
               var tva = $(this).attr("data-TVA");
               var price = $(this).attr("data-price");
               var Tic_ID = $('#Tic_ID').data().name;
-              var fct = '/Add_to_ticket/'+prod+'/'+Tic_ID+'/'+tva+'/'+price
+              var type = $(this).attr("data-type");
+
+              if (type == "produits") {
+                                      var qte = window.prompt("Entrer la quantité: ");
+              }
+              else {
+                    qte = 0
+              }
+
+              var fct = '/Add_to_ticket/'+prod+'/'+Tic_ID+'/'+tva+'/'+price+'/'+qte
               console.log($(this).attr("data-TVA"))
                 // reload div of the ticket only
 
               $.ajax({  type: 'POST',  url: fct,
               success: function(data) {
 																			console.log(data.matching_results);
-                                      $("#"+prod).text(prod + " : " + data.matching_results[0].toString() );
+                                      $("#"+prod).text(prod + " : x" + data.matching_results[0].toString()+" = "+ parseFloat(data.matching_results[0])*parseFloat(price).toString() );
                                      },
              });
                console.log(window.location.href)
@@ -133,7 +142,7 @@
   				{% for prod in produits%}
   							<div class="animate-box">
                   <div class="container_flex_col">
-  										<a href="#" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete" style="margin-right: 20px; margin-left: 20px;">X</button>
+  										<a href="#" data-type="produits" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}} </a>  <button name="{{prod.name}}" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete" style="margin-top: 5px;  margin-right: 20px; margin-left: 20px;">X</button>
   							  </div>
                 </div>
   					{%endfor%}
@@ -151,7 +160,7 @@
       			{% for key in All_Tickets%}
             {% if  All_Tickets[key]['Qte'] != 0 %}
               <div class="row">
-                <span style="margin-bottom: 0px;" id="{{ All_Tickets[key]['produit']}}">{{ All_Tickets[key]['produit']}} : {{ All_Tickets[key]['Qte']}}</span>
+                <span style="margin-bottom: 0px;" id="{{ All_Tickets[key]['produit']}}">{{ All_Tickets[key]['produit']}} : x{{ All_Tickets[key]['Qte']}}  = {{ All_Tickets[key]['Qte']*All_Tickets[key]['Prix']}} </span> 
               </div>
             {%endif%}
             {%endfor%}

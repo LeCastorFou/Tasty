@@ -35,6 +35,7 @@ def Caisse_Carte():
             foods = Food.query.all()
             produits = Product.query.all()
             All_Tickets = load_DB_collection(db_mongo,'Ticket')
+            All_Tickets['Prix'] = [float(e) for e in list(All_Tickets['Prix'])]
             if len(All_Tickets)>0:
                 All_Tickets = All_Tickets[All_Tickets['Tic_ID'] == Ticket_ID_En_Cours]
             All_Tickets = All_Tickets.to_dict('index')
@@ -119,11 +120,11 @@ def close_ticket_mod(Tic_ID,mod):
 
 
 # Save action with jquery fction without reloading DataFrame
-@caisse.route('/Add_to_ticket/<string:prod>/<string:Tic_ID>/<string:tva>/<string:price>',methods = ['POST'])
+@caisse.route('/Add_to_ticket/<string:prod>/<string:Tic_ID>/<string:tva>/<string:price>/<string:qte>',methods = ['POST'])
 #@login_required
-def Add_to_ticket(prod,Tic_ID,tva,price):
+def Add_to_ticket(prod,Tic_ID,tva,price,qte):
     # On ajoute prod au ticket dans la bdd mongo
-    Add_Tic(db_mongo,prod,Tic_ID,tva,price)
+    Add_Tic(db_mongo,prod,Tic_ID,tva,price,qte)
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
     All_Tickets = All_Tickets[All_Tickets['produit']==prod]
     All_Tickets = All_Tickets[All_Tickets['Tic_ID']==Tic_ID]
