@@ -24,11 +24,13 @@
 	</div>
 
 	<div class="col-md-4" >
-    <p>Date : {{date}}</p>
-    {% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-    {% endfor %}
+     <div class="steelBlueCols">
+      <p>Date : {{date}}</p>
+      {% for table in tables %}
+              {{titles[loop.index]}}
+              {{ table|safe }}
+      {% endfor %}
+    </div>
   </div>
 
 

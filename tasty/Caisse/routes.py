@@ -35,8 +35,8 @@ def Caisse_Carte():
             foods = Food.query.all()
             produits = Product.query.all()
             All_Tickets = load_DB_collection(db_mongo,'Ticket')
-            All_Tickets['Prix'] = [float(e) for e in list(All_Tickets['Prix'])]
             if len(All_Tickets)>0:
+                All_Tickets['Prix'] = [float(e) for e in list(All_Tickets['Prix'])]
                 All_Tickets = All_Tickets[All_Tickets['Tic_ID'] == Ticket_ID_En_Cours]
             All_Tickets = All_Tickets.to_dict('index')
             return render_template('Caisse/Caisse_Carte.html',boissons=boissons,foods = foods,All_Tickets=All_Tickets,produits=produits,Ticket_ID_En_Cours=Ticket_ID_En_Cours)
@@ -57,7 +57,8 @@ def Caisse_Carte_init():
             list_df = list_df+[All_Daily_sum[All_Daily_sum['Date']==e].reset_index()]
         list_df = list_df[0]
         list_df = list_df.drop(['index','Date'],axis =1)
-        return render_template('Caisse/Caisse_Carte_init.html', tables=[list_df.to_html(classes='data')],titles=list_df.columns.values, date = pd.to_datetime(Dates[0]).strftime("%m/%d/%Y") )
+        list_df = list_df[['Summary','Prix']]
+        return render_template('Caisse/Caisse_Carte_init.html', tables=[list_df.to_html(classes='steelBlueCols')],titles=list_df.columns.values, date = pd.to_datetime(Dates[0]).strftime("%m/%d/%Y") )
     else:
         return render_template('Caisse/Caisse_Carte_init.html', tables=[],titles=[], date = '' )
 # Open ticket when none is open
@@ -93,6 +94,7 @@ def close_caisse():
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
     Daily_summary = pd.merge(Ticket_ID,All_Tickets, on="Tic_ID")
     Daily_summary['Prix'] = [float(e) for e in list(Daily_summary['Prix'])]
+    Total = np.sum(Daily_summary['Prix']*Daily_summary['Qte'])
     TVA_ventil = pd.DataFrame(Daily_summary.groupby(['TVA'])['Prix'].sum())
     Paiement_ventil = pd.DataFrame(Daily_summary.groupby(['Paiment'])['Prix'].sum())
     Produit_ventil = pd.DataFrame(Daily_summary.groupby(['produit'])['Prix'].sum())
@@ -102,6 +104,7 @@ def close_caisse():
     Summary = Summary.append({'Prix': len(np.unique(Daily_summary['Tic_ID'])),'Summary':'Nombre de Ticket'}, ignore_index=True)
     panier_moyen =np.mean(pd.DataFrame(Daily_summary.groupby(['Tic_ID'])['Prix'].sum())['Prix'])
     Summary = Summary.append({'Prix': panier_moyen,'Summary':'panier moyen'}, ignore_index=True)
+    Summary = Summary.append({'Prix': Total,'Summary':'Total'}, ignore_index=True)
     Summary['Date'] = today
     # Saving
     Summary = Summary.to_dict('records')
