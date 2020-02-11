@@ -48,17 +48,18 @@ def Caisse_Carte():
 @caisse.route("/Caisse_Carte_init")
 #@login_required
 def Caisse_Carte_init():
-    '''
     All_Daily_sum = load_DB_collection(db_mongo,'Daily_summary')
-    Dates = np.sort(np.unique(All_Daily_sum['Date']))[::-1]
-    Dates = Dates[0:3]
-    list_df = []
-    for e in Dates:
-        list_df = list_df+[All_Daily_sum[All_Daily_sum['Date']==e].reset_index()]
-    pd.concat(list_df, axis=1)
-    '''
-    return render_template('Caisse/Caisse_Carte_init.html')
-
+    if len(All_Daily_sum) >0:
+        Dates = np.sort(np.unique(All_Daily_sum['Date']))[::-1]
+        Dates = Dates[0:3]
+        list_df = []
+        for e in Dates:
+            list_df = list_df+[All_Daily_sum[All_Daily_sum['Date']==e].reset_index()]
+        list_df = list_df[0]
+        list_df = list_df.drop(['index','Date'],axis =1)
+        return render_template('Caisse/Caisse_Carte_init.html', tables=[list_df.to_html(classes='data')],titles=list_df.columns.values, date = pd.to_datetime(Dates[0]).strftime("%m/%d/%Y") )
+    else:
+        return render_template('Caisse/Caisse_Carte_init.html', tables=[],titles=[], date = '' )
 # Open ticket when none is open
 @caisse.route('/Open_ticket',methods = ['POST'])
 #@login_required
@@ -86,7 +87,7 @@ def close_caisse():
         if today in list(All_Daily_sum['Date']):
             flash('La caisse a déjà été fermé', 'error')
             return redirect(url_for('caisse.Caisse_Carte_init'))
-            
+
     Ticket_ID = load_DB_collection(db_mongo,'Ticket_ID')
     Ticket_ID = Ticket_ID.rename(columns={'ID': 'Tic_ID'})
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
@@ -115,9 +116,6 @@ def close_ticket_mod(Tic_ID,mod):
     # On ecrit le moyen de Paiement
     Close_Tic_mod(db_mongo,Tic_ID,mod)
     return jsonify(matching_results=['res'])
-
-
-
 
 
 # Save action with jquery fction without reloading DataFrame
