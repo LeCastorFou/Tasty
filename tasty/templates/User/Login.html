@@ -1,0 +1,60 @@
+{% extends "mainweb/layout.html" %}
+{%block content %}
+{{user}}
+
+  <div class = "content-section">
+      <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <!-- les class sont pour le bootstrap -->
+          <fieldset>
+              <legend class = 'border-bottom mb-4'>Log In</legend>
+
+              <div class='form-group'>
+                {{ form.email.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.email.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.email(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+              <div class='form-group'>
+                {{ form.password.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.password.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.password(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+              <div class = "form-check">
+                  {{ form.remember(class="form-check-input") }}
+                  {{ form.remember.label(class="form-check-label") }}
+              </div>
+              </div>
+          </fieldset>
+          <div class='form-group'>
+            {{ form.submit(class = "btn btn-outline-info")}}
+            <small class="text-muted ml-2">
+              <a href = "{{ url_for('userbp.reset_request')}}">Mot de passe oublié ?</a>
+            </small>
+          </div>
+
+      </form>
+  <div class='border-tob pt-3'>
+    <small class='text-muted'>
+        Besoin d'un compte ? <a class='ml-2' href ="{{url_for('userbp.register')}}"> S'inscrire </a>
+    </small>
+  </div>
+
+{% endblock content %}

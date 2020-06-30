@@ -51,5 +51,8 @@ def create_app(config_class = Config):
     from tasty.API.routes import API
     app.register_blueprint(API)
 
+    from tasty.User.routes import userbp
+    app.register_blueprint(userbp)
+
 
     return app
