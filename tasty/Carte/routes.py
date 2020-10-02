@@ -42,9 +42,9 @@ def addcarte_boisson():
     form = AddCarteBoissonForm()
     if form.validate_on_submit():
         if form.picture.data != None:
-            boisson = Boisson(image_file = save_picture_carte(form.picture.data),name=form.name.data, description=form.description.data, price_sell = form.price_sell.data)
+            boisson = Boisson(image_file = save_picture_carte(form.picture.data),name=form.name.data, description=form.description.data, price_sell = form.price_sell.data,TVA = form.TVA.data)
         else:
-            boisson = Boisson(name=form.name.data, description=form.description.data, price_sell = form.price_sell.data)
+            boisson = Boisson(name=form.name.data, description=form.description.data, price_sell = form.price_sell.data,TVA = form.TVA.data)
         db.session.add(boisson)
         db.session.commit()
         flash('Boisson ajoutée','success')
@@ -58,9 +58,9 @@ def addcarte_food():
     form = AddCarteFoodForm()
     if form.validate_on_submit():
         if form.picture.data != None:
-            food = Food(image_file = save_picture_carte(form.picture.data),name=form.name.data, description=form.description.data, price_sell = form.price_sell.data)
+            food = Food(image_file = save_picture_carte(form.picture.data),name=form.name.data, description=form.description.data, price_sell = form.price_sell.data,TVA = form.TVA.data)
         else:
-            food = Food(name=form.name.data, description=form.description.data, price_sell = form.price_sell.data)
+            food = Food(name=form.name.data, description=form.description.data, price_sell = form.price_sell.data,TVA = form.TVA.data)
         db.session.add(food)
         db.session.commit()
         flash('Food ajoutée','success')

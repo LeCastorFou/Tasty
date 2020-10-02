@@ -40,6 +40,21 @@
               </div>
 
               <div class='form-group'>
+                {{ form.TVA.label(class="form-control-label")}}
+                <!-- On ajoute une class error de bootstrap et on les checks -->
+                  {% if form.TVA.errors %}
+                    {{ form.TVA(class="form-control form-control-lg is-invalid")}}
+                    <div class="invalid-feedback">
+                      {% for error in form.TVA.errors %}
+                        <span>{{error}}</span>
+                      {% endfor%}
+                    </div>
+                    {% else %}
+                      {{ form.TVA(class="form-control form-control-lg")}}
+                  {% endif%}
+              </div>
+
+              <div class='form-group'>
                 {{ form.price_sell.label(class="form-control-label")}}
                 <!-- On ajoute une class error de bootstrap et on les checks -->
                   {% if form.price_sell.errors %}
@@ -54,7 +69,9 @@
                   {% endif%}
               </div>
 
-            
+
+
+
             <div class='form-group'>
               {{ form.picture.label()}}
               {{ form.picture(class = "form-control-file")}}

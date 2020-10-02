@@ -17,7 +17,7 @@ class AddCarteBoissonForm(FlaskForm):
     description = TextAreaField('Contenu', validators=[DataRequired()])
     price_sell = FloatField('Prix de Vente', validators=[DataRequired()])
     picture = FileField('Image :', validators=[])
-    #picture = FileField('Image :', validators=[])
+    TVA = FloatField('TVA :', validators=[])
     submit = SubmitField('Ajouter')
 
 class AddCarteFoodForm(FlaskForm):
@@ -25,5 +25,5 @@ class AddCarteFoodForm(FlaskForm):
     description = TextAreaField('Contenu', validators=[DataRequired()])
     price_sell = FloatField('Prix de Vente', validators=[DataRequired()])
     picture = FileField('Image :', validators=[])
-    #picture = FileField('Image :', validators=[])
+    TVA = FloatField('TVA :', validators=[])
     submit = SubmitField('Ajouter')

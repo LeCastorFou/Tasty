@@ -76,6 +76,7 @@ class Boisson(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.Text, nullable=False)
     price_sell = db.Column(db.Float , nullable=False)
+    TVA = db.Column(db.Float , nullable=False)
 
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -85,3 +86,4 @@ class Food(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.Text, nullable=False)
     price_sell = db.Column(db.Float , nullable=False)
+    TVA = db.Column(db.Float , nullable=False)
