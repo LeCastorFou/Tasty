@@ -34,12 +34,15 @@ def Caisse_Carte():
             boissons = Boisson.query.all()
             foods = Food.query.all()
             produits = Product.query.all()
+            lenboi = math.ceil(len(boissons)%6)
+            lenfood= math.ceil(len(foods)%6)
+            lenprod= math.ceil(len(produits)%6)
             All_Tickets = load_DB_collection(db_mongo,'Ticket')
             if len(All_Tickets)>0:
                 All_Tickets['Prix'] = [float(e) for e in list(All_Tickets['Prix'])]
                 All_Tickets = All_Tickets[All_Tickets['Tic_ID'] == Ticket_ID_En_Cours]
             All_Tickets = All_Tickets.to_dict('index')
-            return render_template('Caisse/Caisse_Carte.html',boissons=boissons,foods = foods,All_Tickets=All_Tickets,produits=produits,Ticket_ID_En_Cours=Ticket_ID_En_Cours)
+            return render_template('Caisse/Caisse_Carte.html',boissons=boissons,foods = foods,All_Tickets=All_Tickets,produits=produits,Ticket_ID_En_Cours=Ticket_ID_En_Cours,lenboi=lenboi,lenfood=lenfood,lenprod=lenprod)
         else:
             return redirect(url_for('caisse.Caisse_Carte_init'))
     else:

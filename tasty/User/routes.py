@@ -40,11 +40,12 @@ def register():
 @userbp.route("/Login",methods=['GET','POST'])
 #@login_required
 def Login():
-    #if current_user.is_authenticated:
-    #    return redirect(url_for('main.home'))
-    form = LoginForm()
-    user =  current_user.username
-    return render_template('User/Login.html', form = form,user=user)
+    print(current_user.is_authenticated)
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
+    else:
+        form = LoginForm()
+        return render_template('User/Login.html', form = form)
 
 
 @userbp.route("/reset_password", methods=['GET', 'POST'])

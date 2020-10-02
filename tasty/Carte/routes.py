@@ -15,6 +15,7 @@ import math
 import json
 from flask import jsonify
 import datetime
+import math
 ######### LOADING BDD ########
 #exec(open(os.getcwd() + '/tasty/MongoConnection/Functions_Mongo.py').read())
 #exec(open('MongoConnection/Functions_Mongo.py').read())
@@ -30,7 +31,9 @@ carte = Blueprint('carte',__name__)
 def allcarte():
     boissons = Boisson.query.all()
     foods = Food.query.all()
-    return render_template('carte/all_carte_products.html',boissons=boissons,foods = foods)
+    lenboi = math.ceil(len(boissons)%4)
+    lenfood= math.ceil(len(foods)%4)
+    return render_template('carte/all_carte_products.html',boissons=boissons,foods = foods,lenboi=lenboi,lenfood=lenfood)
 
 # creer une boisson :
 @carte.route("/carte/add_boisson",  methods=['GET','POST'])
