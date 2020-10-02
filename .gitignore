@@ -1,4 +1,5 @@
 *.db
+tasty/*.db
 *.pyc
 *.jpg
 *.png
