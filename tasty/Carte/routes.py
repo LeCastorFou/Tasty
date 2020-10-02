@@ -31,8 +31,8 @@ carte = Blueprint('carte',__name__)
 def allcarte():
     boissons = Boisson.query.all()
     foods = Food.query.all()
-    lenboi = math.ceil(len(boissons)%4)
-    lenfood= math.ceil(len(foods)%4)
+    lenboi = math.ceil(len(boissons)/4)
+    lenfood= math.ceil(len(foods)/4)
     return render_template('carte/all_carte_products.html',boissons=boissons,foods = foods,lenboi=lenboi,lenfood=lenfood)
 
 # creer une boisson :
