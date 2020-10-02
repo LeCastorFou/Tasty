@@ -1,0 +1,10 @@
+*.db
+*.pyc
+*.jpg
+*.png
+*.jpeg
+flaskblog/.DS_Store
+.DS_Store
+.DS_Store
+.DS_Store
+

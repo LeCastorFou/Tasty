@@ -33,20 +33,22 @@
 
 		<div id="fh5co-featured-menu" style ="padding-top:0px" class="fh5co-section">
 			<div class="container">
-				<div class="row">
-				{% for prod in foods%}
-							<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
-								<div class="fh5co-item">
-									<img src="static/images/carte/{{prod.image_file}}" class="img-responsive">
-									<h3>{{prod.name}}</h3>
-									<span class="fh5co-price">{{prod.price_sell}} </span>
-									<p>{{prod.description}}  (id = {{prod.id}})</p>
-									<p><a href="{{ url_for('carte.delete_food', food_id = prod.id) }}" class="btn btn-primary btn-outline">Effacer</a></p>
-									<p><a href="{{ url_for('carte.update_food', food_id = prod.id) }}" class="btn btn-primary btn-outline">Modifier</a></p>
+				{% for i in range(lenfood) %}
+					<div class ="row">
+					{% for prod in foods[i*4:i*4+4]%}
+								<div class="col-md-3 col-sm-6 col-xs-6 col-xxs-12 fh5co-item-wrap animate-box">
+									<div class="fh5co-item">
+										<img src="static/images/carte/{{prod.image_file}}" class="img-responsive">
+										<h3>{{prod.name}}</h3>
+										<span class="fh5co-price">{{prod.price_sell}} </span>
+										<p>{{prod.description}}  </p>
+										<p><a href="{{ url_for('carte.delete_food', food_id = prod.id) }}" class="btn btn-primary btn-outline">Effacer</a></p>
+										<p><a href="{{ url_for('carte.update_food', food_id = prod.id) }}" class="btn btn-primary btn-outline">Modifier</a></p>
+									</div>
 								</div>
-							</div>
-					{%endfor%}
+						{%endfor%}
 					</div>
+					{%endfor%}
 				</div>
 			</div>
 
