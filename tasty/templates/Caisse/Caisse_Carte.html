@@ -141,13 +141,11 @@
 	<div class="col-md-8 " >
 		<div id="fh5co-featured-menu" style ="padding-top:0px; padding-bottom:20px" class="fh5co-section">
 		 <div class="container_flex" >
-       {{boissons}}
        {% for i in range(lenboi) %}
          <div class ="container_flex_col">
     		{% for prod in boissons[i*6:i*6+6]%}
-
                  <div class="container_flex_col">
-    							   <a href="#" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}} {{prod.TVA}}</a>
+    							   <a href="#" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary btn-outline btn_caisse" name="{{prod.name}}" >{{prod.name}} </a>
                      <button name="{{prod.name}}" type="button" class="btn-primary btn-sm btn-outline  btn_delete" data-price="{{prod.price_sell}}" style="margin-right: 20px; margin-left: 20px;">X</button>
     					    </div>
     	    {%endfor%}
