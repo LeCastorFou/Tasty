@@ -16,7 +16,7 @@
 								<img src="static/images/products/{{prod.image_file}}" class="img-responsive">
 								<h3>{{prod.name}}</h3>
 								<span class="fh5co-price">{{prod.price_sell}} €</span>
-								<p>{{prod.description}}  (id = {{prod.id}})</p>
+								<p>{{prod.description}}  </p>
 								<p><a href="{{ url_for('products.delete_post', prod_id = prod.id) }}" class="btn btn-primary btn-outline">Effacer</a></p>
 								<p><a href="{{ url_for('products.update_post', prod_id = prod.id) }}" class="btn btn-primary btn-outline">Modifier</a></p>
 							</div>
