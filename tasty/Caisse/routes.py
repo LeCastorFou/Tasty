@@ -136,7 +136,7 @@ def Add_to_ticket(prod,Tic_ID,tva,price,qte):
     Add_Tic(db_mongo,prod,Tic_ID,tva,price,qte)
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
     All_Tickets = All_Tickets[All_Tickets['Tic_ID']==Tic_ID]
-    total = np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))])
+    total = round(np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))]),2)
     All_Tickets = All_Tickets[All_Tickets['produit']==prod]
 
     res = list(All_Tickets['Qte'])[0]
@@ -150,7 +150,7 @@ def remove_to_ticket(prod,Tic_ID):
     Remove_onefrom_Tic(db_mongo,prod,Tic_ID)
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
     All_Tickets = All_Tickets[All_Tickets['Tic_ID']==Tic_ID]
-    total = np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))])
+    total = round(np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))]),2)
     All_Tickets = All_Tickets[All_Tickets['produit']==prod]
     res = list(All_Tickets['Qte'])[0]
     return jsonify(matching_results=[str(res),str(total)])
@@ -162,7 +162,7 @@ def remove_prod_to_ticket(prod,Tic_ID):
     Remove_prodfrom_Tic(db_mongo,prod,Tic_ID)
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
     All_Tickets = All_Tickets[All_Tickets['Tic_ID']==Tic_ID]
-    total = np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))])
+    total = round(np.sum([float(list(All_Tickets['Prix'])[i])*float(list(All_Tickets['Qte'])[i]) for i in range(len(All_Tickets))]),2)
     All_Tickets = All_Tickets[All_Tickets['produit']==prod]
     res = list(All_Tickets['Qte'])
     if len(res) >0:
