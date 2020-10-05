@@ -53,6 +53,7 @@
               $.ajax({  type: 'POST',  url: fct,
               success: function(data) {
 																			console.log(data.matching_results);
+                                      console.log("Total : " + data.matching_results[1].toString()+" €");
                                       $("#"+prod).text(prod + " : x" + data.matching_results[0].toString()+" = "+ parseFloat(data.matching_results[0])*parseFloat(price).toString() );
                                       $("#total").text("Total : " + data.matching_results[1].toString()+" €" );
                                      },
