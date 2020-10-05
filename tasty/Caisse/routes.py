@@ -34,9 +34,9 @@ def Caisse_Carte():
             boissons = Boisson.query.all()
             foods = Food.query.all()
             produits = Product.query.all()
-            lenboi = math.ceil(len(boissons)%6)
-            lenfood= math.ceil(len(foods)%6)
-            lenprod= math.ceil(len(produits)%6)
+            lenboi = math.ceil(len(boissons)/6)
+            lenfood= math.ceil(len(foods)/6)
+            lenprod= math.ceil(len(produits)/6)
             All_Tickets = load_DB_collection(db_mongo,'Ticket')
             if len(All_Tickets)>0:
                 All_Tickets['Prix'] = [float(e) for e in list(All_Tickets['Prix'])]
