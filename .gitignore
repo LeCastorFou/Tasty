@@ -1,5 +1,7 @@
 *.db
 tasty/*.db
+site.db
+tasty/site.db
 *.pyc
 *.jpg
 *.png
