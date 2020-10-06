@@ -170,3 +170,32 @@ def remove_prod_to_ticket(prod,Tic_ID):
     else:
         res = 0
     return jsonify(matching_results=[str(res),str(total)])
+
+
+@caisse.route("/SendTicket_ID/<string:Tic_ID>/<string:email>/<string:nom>/<string:prenom>/<string:adresse>",methods = ['GET','POST'])
+#@login_required
+def SendTicket_ID(Tic_ID,email,nom,prenom,adresse):
+    All_Daily_sum = load_DB_collection(db_mongo,'Ticket')
+    Tic = All_Daily_sum[All_Daily_sum['Tic_ID']==Tic_ID]
+    Tic['Prix'] = Tic['Prix'].astype('float')
+    Tic['TVA'] = Tic['TVA'].astype('float')
+    Tic = Tic[['Prix','Qte','TVA','produit']]
+    Tic.columns = ['Prix TTC', 'Quantité','TVA', 'Produit']
+    Tic['Prix HT'] = Tic['Prix TTC']/(1+0.01*Tic['TVA'])
+
+    print(Tic)
+    print(email)
+    msg = Message('Voila la facture !',
+    sender='cafedata56@gmail.com',
+    recipients=[email])
+    mailhtml = '<p>  CafeData 20 avenue Wilson Auray 56400<p>'+'<p>Facture num : '+str(Tic_ID)+'</p>'+'<p> A : </p>'+'<p> Nom :'+nom+' </p>'+'<p> Prenom : '+prenom+'</p>'+'<p> Adresse : '+adresse+' </p>'+Tic.to_html() +'<p></p>'+'<p>'+'SASU Cafe Data Siret : 884 395 468 00017'+'</p>'
+    msg.html = mailhtml
+    mail.send(msg)
+    pdfkit.from_string(mailhtml, '../Facture_'+str(Tic_ID)+'.pdf')
+    print('Mail envoyé')
+
+    All_Daily_sum = All_Daily_sum[['Tic_ID','Prix']].groupby(['Tic_ID']).sum()
+    All_Daily_sum['ID'] = All_Daily_sum.index
+    res = All_Daily_sum.to_dict('record')
+
+    return render_template('Caisse/ListTicket.html', res=res )

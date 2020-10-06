@@ -1,0 +1,77 @@
+{% extends "layouts/layout_Caisse.html" %}
+{%block content %}
+
+
+<script>
+     $(document).ready(function(){
+          $('.btn_open_tic').click(function(){
+              var fct = '/Open_ticket'
+              $.ajax({  type: 'POST',  url: fct,success: function(data) {console.log(data.matching_results); },});
+             toastr.success('Nouveau ticket créé')
+          });
+     });
+</script>
+
+<script>
+     $(document).ready(function(){
+          $('.btn_sendmail').click(function(){
+              console.log($(this).attr("id"))
+              var Tic_ID = $(this).attr("id");
+              var email = $('.'+Tic_ID).val();
+              var nom = $('.'+Tic_ID+'_nom').val();
+              var prenom = $('.'+Tic_ID+'_prenom').val();
+              var adresse = $('.'+Tic_ID+'_adresse').val();
+              if (nom == '')
+              {
+                nom = '---';
+              }
+              if (prenom == '')
+              {
+                prenom = '---';
+              }
+              if (adresse == '')
+              {
+                adresse = '---';
+              }
+              var fct = '/SendTicket_ID/'+Tic_ID+'/'+email+'/'+nom+'/'+prenom+'/'+adresse;
+              console.log(fct)
+              console.log(email)
+              $.ajax({  type: 'POST',  url: fct,success: function(data) {console.log(data.matching_results); },});
+             toastr.success('Mail envoyé')
+          });
+     });
+</script>
+
+<div id="fh5co-about" class="fh5co-section">
+	<div class = "simple_center_marge_div"></div>
+</div>
+
+<div class="row whiteround" style="margin-right: 0px;margin-left: 0px;">
+
+	<div class="col-md-8 ">
+    {%for e in res%}
+
+    <p style="color:white;">ID du Ticket : {{e.ID}} Total: {{e.Prix}} €
+      <br>
+      Mail : <input type="text" style="background-color: #e94a3e"   class="{{e.ID}}" required minlength="4" maxlength="80" size="10">
+      Si facture Nom :   <input type="text" style="background-color: #e94a3e" class="{{e.ID}}_nom" required minlength="4" maxlength="80" size="10">
+      <br>
+      Prénom : <input type="text" style="background-color: #e94a3e"   class="{{e.ID}}_prenom" required minlength="4" maxlength="80" size="10">
+      adresse : <input type="text" style="background-color: #e94a3e"   class="{{e.ID}}_adresse" required minlength="4" maxlength="80" size="10">
+      <br>
+      <button class="btn btn-primary btn-lg btn_sendmail" id = {{e.ID}} style =" margin-bottom : 10px">
+        <i class="far fa-paper-plane"></i>
+        Envoyer ce ticket par mail
+      </button>
+
+  </p>
+
+    {%endfor%}
+	</div>
+
+	<div class="col-md-4" >
+
+  </div>
+
+
+{% endblock content %}
