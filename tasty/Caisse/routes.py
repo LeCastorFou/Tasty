@@ -171,6 +171,19 @@ def remove_prod_to_ticket(prod,Tic_ID):
         res = 0
     return jsonify(matching_results=[str(res),str(total)])
 
+@caisse.route("/SendTicket",methods = ['GET','POST'])
+#@login_required
+def SendTicket():
+    All_Daily_sum = load_DB_collection(db_mongo,'Ticket')
+    All_Daily_sum['Prix'] = All_Daily_sum['Prix'].astype('float')
+    All_Daily_sum['Prix'] = All_Daily_sum['Prix']*All_Daily_sum['Qte']
+    All_Daily_sum = All_Daily_sum[['Tic_ID','Prix']].groupby(['Tic_ID']).sum()
+    All_Daily_sum['ID'] = All_Daily_sum.index
+    All_Daily_sum = All_Daily_sum[-3:]
+    All_Daily_sum = All_Daily_sum.iloc[::-1]
+    All_Daily_sum['Prix'] = [round(e,2) for e in All_Daily_sum['Prix'] ]
+    res = All_Daily_sum.to_dict('record')
+    return render_template('Caisse/ListTicket.html', res=res )
 
 @caisse.route("/SendTicket_ID/<string:Tic_ID>/<string:email>/<string:nom>/<string:prenom>/<string:adresse>",methods = ['GET','POST'])
 #@login_required
@@ -178,10 +191,13 @@ def SendTicket_ID(Tic_ID,email,nom,prenom,adresse):
     All_Daily_sum = load_DB_collection(db_mongo,'Ticket')
     Tic = All_Daily_sum[All_Daily_sum['Tic_ID']==Tic_ID]
     Tic['Prix'] = Tic['Prix'].astype('float')
+    Tic['Prix unit'] =Tic['Prix']
+    Tic['Prix Total'] =Tic['Prix']*Tic['Qte']
     Tic['TVA'] = Tic['TVA'].astype('float')
-    Tic = Tic[['Prix','Qte','TVA','produit']]
-    Tic.columns = ['Prix TTC', 'Quantité','TVA', 'Produit']
-    Tic['Prix HT'] = Tic['Prix TTC']/(1+0.01*Tic['TVA'])
+    Tic = Tic[['Prix unit','Qte','Prix Total','TVA','produit']]
+    Tic.columns = ['Prix unité TTC', 'Quantité', 'Prix Total TTC','TVA', 'Produit']
+    Tic['Prix Total HT'] = Tic['Prix Total TTC']/(1+0.01*Tic['TVA'])
+    Tic['Prix Total HT'] = [round(e,2) for e in Tic['Prix Total HT'] ]
 
     print(Tic)
     print(email)
@@ -191,7 +207,7 @@ def SendTicket_ID(Tic_ID,email,nom,prenom,adresse):
     mailhtml = '<p>  CafeData 20 avenue Wilson Auray 56400<p>'+'<p>Facture num : '+str(Tic_ID)+'</p>'+'<p> A : </p>'+'<p> Nom :'+nom+' </p>'+'<p> Prenom : '+prenom+'</p>'+'<p> Adresse : '+adresse+' </p>'+Tic.to_html() +'<p></p>'+'<p>'+'SASU Cafe Data Siret : 884 395 468 00017'+'</p>'
     msg.html = mailhtml
     mail.send(msg)
-    pdfkit.from_string(mailhtml, '../Facture_'+str(Tic_ID)+'.pdf')
+    #pdfkit.from_string(mailhtml, '../Facture_'+str(Tic_ID)+'.pdf')
     print('Mail envoyé')
 
     All_Daily_sum = All_Daily_sum[['Tic_ID','Prix']].groupby(['Tic_ID']).sum()

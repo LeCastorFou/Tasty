@@ -18,8 +18,8 @@ class Config():
     #MAIL_USENAME = os.environ.get('EMAIL_USER')
     #MAIL_USENAME = os.environ.get('EMAIL_USER')
 
-    MAIL_USERNAME = 'valent1lefranc@gmail.om'
-    MAIL_PASSWORD = ''
+    MAIL_USERNAME = 'cafedata56@gmail.com'
+    MAIL_PASSWORD = 'Wilson56400'
 
     ### UPLOAD CONFIG ###############
     UPLOAD_FOLDER = 'C:/Users/Vlefranc/'
