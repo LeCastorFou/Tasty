@@ -160,7 +160,7 @@
         {% for i in range(lenfood) %}
             <div class ="container_flex_col">
   				{% for prod in foods[i*6:i*6+6]%}
-  							<div class="animate-box">
+  							<div class="">
                   <div class="container_flex_col">
   										<a href="#" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary2 btn-outline2  btn_caisse" name="{{prod.name}}" >{{prod.name}}</a> <button name="{{prod.name}}" type="button" class="btn btn-primary2 btn-outline2 btn-sm btn_delete" data-price="{{prod.price_sell}}" style="margin-right: 20px; margin-left: 20px;">X</button>
   							  </div>
@@ -176,7 +176,7 @@
             {% for i in range(lenprod) %}
                 <div class ="container_flex_col">
     				{% for prod in produits[i*6:i*6+6]%}
-    							<div class="animate-box">
+    							<div class="">
                     <div class="container_flex_col">
     										<a href="#" data-type="produits" data-TVA="{{prod.TVA}}" data-price="{{prod.price_sell}}" class="btn btn-primary3 btn-outline3  btn_caisse" name="{{prod.name}}" >{{prod.name}} </a>  <button name="{{prod.name}}" data-type="produits" type="button" class="btn btn-primary3 btn-outline3 btn-sm btn_delete_prod" data-price="{{prod.price_sell}}" style="margin-top: 5px;  margin-right: 20px; margin-left: 20px;">X</button>
     							  </div>

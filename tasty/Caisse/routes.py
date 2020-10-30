@@ -87,6 +87,7 @@ def close_ticket(Tic_ID):
 #@login_required
 def close_caisse():
     today = datetime.datetime.today().replace(hour=0,minute=0,second=0,microsecond=0)
+    #today = today - timedelta(days =1)
     All_Daily_sum = load_DB_collection(db_mongo,'Daily_summary')
     if len(All_Daily_sum)>0:
         if today in list(All_Daily_sum['Date']):
@@ -117,7 +118,6 @@ def close_caisse():
     Summary = Summary.to_dict('records')
     db_mongo["Daily_summary"].insert_many(Summary)
     return redirect(url_for('caisse.Caisse_Carte_init'))
-
 
 # Closing ticket mode de Paiement
 @caisse.route('/close_ticket_mod/<string:Tic_ID>/<string:mod>',methods = ['POST'])

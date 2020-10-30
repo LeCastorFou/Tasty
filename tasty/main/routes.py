@@ -36,6 +36,11 @@ def home():
 def coworking():
     return render_template('mainweb/coworking.html')
 
+@main.route("/aemporte")
+def aemporte():
+    return render_template('mainweb/aemporte.html')
+
+
 @main.route("/about")
 def about():
     return render_template('mainweb/about.html')
