@@ -97,6 +97,13 @@ def close_caisse():
     Ticket_ID = load_DB_collection(db_mongo,'Ticket_ID')
     Ticket_ID = Ticket_ID.rename(columns={'ID': 'Tic_ID'})
     All_Tickets = load_DB_collection(db_mongo,'Ticket')
+    '''
+    All_Tickets['Prix']= pd.to_numeric(All_Tickets["Prix"], downcast="float")
+    All_Tickets['recettes'] = All_Tickets['Prix']*All_Tickets['Qte']
+    all_resume = All_Tickets.groupby(['produit']).sum()
+    all_resume = all_resume.drop(['Prix'],axis = 1).sum()
+    print(all_resume.recettes*2/3)
+    '''
     Daily_summary = pd.merge(Ticket_ID,All_Tickets, on="Tic_ID")
     Daily_summary['Prix'] = [float(e) for e in list(Daily_summary['Prix'])]
     Daily_summary['Prix_tot'] = Daily_summary['Prix']*Daily_summary['Qte']
